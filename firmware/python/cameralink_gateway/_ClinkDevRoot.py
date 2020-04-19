@@ -22,7 +22,8 @@ import surf.protocols.batcher as batcher
 import surf.protocols.clink   as cl
 import l2si_core              as l2si
 
-rogue.Version.minVersion('4.10.3')
+rogue.Version.minVersion('4.9.0')
+#rogue.Version.minVersion('4.10.3')
 # rogue.Version.exactVersion('4.10.3')
 
 class ClinkDevRoot(shared.Root):
@@ -82,7 +83,8 @@ class ClinkDevRoot(shared.Root):
         ))
 
         # Create DMA streams
-        self.dmaStreams = axipcie.createAxiPcieDmaStreams(dev, {lane:{dest for dest in range(4)} for lane in range(laneSize)}, 'localhost', 8000)
+        vcs = [0,1,2] if dataDebug else [0,2]
+        self.dmaStreams = axipcie.createAxiPcieDmaStreams(dev, {lane:{dest for dest in vcs} for lane in range(laneSize)}, 'localhost', 8000)
 
         # Check if not doing simulation
         if (dev!='sim'):
